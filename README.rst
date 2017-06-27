@@ -7,6 +7,6 @@ To run:
 
 .. code-block:: bash
 
-    javac -cp . mah.java
+    javac -cp . Mahjongg.java
 
     appletviewer mahjongg.html

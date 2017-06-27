@@ -4,21 +4,20 @@
 // Description: Mahjongg game
 ////////////////////////////////////////////////////////////////
 import java.applet.*;
-import java.lang.*;
 import java.awt.*;
 import java.awt.image.*;
-import java.util.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
-public class mah extends Applet {
+public class Mahjongg extends Applet {
    Image img;
    Image tiles[];
    ImageFilter filter;
    Button uButton;
    Button newButton;
    Button hintButton;
-   mahCanvas canvas;
+   MahjonggCanvas canvas;
    AudioClip sound,sound2;
    byte [] data;
    int highnum =0;
@@ -63,7 +62,6 @@ public class mah extends Applet {
       p.add(uButton);
       add("North",p);
 
-
       Choice c = new Choice();
       c.addItem("Distribution: 1");
       c.addItem("Distribution: 2");
@@ -77,7 +75,6 @@ public class mah extends Applet {
       long start = time.getTime();
 
       p = new Panel();
-
 
 /*
       try {
@@ -93,7 +90,6 @@ public class mah extends Applet {
 
          highnum = Integer.valueOf(response).intValue();  
 
-
          String highStr = "Highscore: " + response + " seconds";
          highLabel = new Label(highStr);
          p.add(highLabel);
@@ -104,7 +100,6 @@ public class mah extends Applet {
       }
 */
 
-
       p.add(new Label("Tiles:"));
       Choice c2 = new Choice();
       c2.addItem("Mahjongg");
@@ -113,17 +108,16 @@ public class mah extends Applet {
       p.add(c2);
       add("South",p);
 
-
-
       p = new Panel();
-      canvas=new mahCanvas(tiles,sound,sound2,start,highnum);
+      canvas=new MahjonggCanvas(tiles,sound,sound2,start,highnum);
 
       p.add(canvas);
       add("Center",p);
    }
-/////////////////////////////////////////////////////////////
-// Function: cropImage
-////////////////////////////////////////////////////////////
+
+   /////////////////////////////////////////////////////////////
+   // Function: cropImage
+   ////////////////////////////////////////////////////////////
    public void cropImage(String s) {
       s = s.toLowerCase(); 
       img = getImage(getCodeBase(), s+".gif"); 
@@ -149,9 +143,9 @@ public class mah extends Applet {
       }
    }
 
-//////////////////////////////////////////////////////////////
-// Function: action
-//////////////////////////////////////////////////////////////	
+   //////////////////////////////////////////////////////////////
+   // Function: action
+   //////////////////////////////////////////////////////////////	
    public boolean action(Event e,Object arg) {
       if ((e.target == uButton) && (canvas.oldHigh1 != -1)) {
          canvas.table[canvas.oldPos[0]][canvas.oldPos[1]][canvas.oldPos[2]] = canvas.oldHigh1;
@@ -189,7 +183,6 @@ public class mah extends Applet {
             server.close();
          } catch (IOException e1) {
          }
-
 
          canvas.repaint();
          return true; 
@@ -233,7 +226,6 @@ public class mah extends Applet {
             } catch (IOException e1) {
             }
 
-
             canvas.repaint();
             return true;
          }
@@ -243,10 +235,10 @@ public class mah extends Applet {
    }
 }
 
-//////////////////////////////////////////////////////////////////////
-// class: mahCanvas
 /////////////////////////////////////////////////////////////////////
-class mahCanvas extends Canvas {
+// class: MahjonggCanvas
+/////////////////////////////////////////////////////////////////////
+class MahjonggCanvas extends Canvas {
    static final int levels = 4;
 
    int i,j,num,flag,flagX,flagY,flagZ, oldHigh1, oldHigh2;
@@ -287,16 +279,13 @@ class mahCanvas extends Canvas {
    int pnt = 0;
    int USflag = 0;
 
-
-
    int [] hint = new int [144];
 
-   mahCanvas(Image tiles[],AudioClip sound,AudioClip sound2,long start,int highnum) {
+   MahjonggCanvas(Image tiles[],AudioClip sound,AudioClip sound2,long start,int highnum) {
       this.sound = sound;
       this.sound2 = sound2;      
       this.start = start;
       this.highnum = highnum;
-
 
       for (int c=0;c<42;++c) {
          this.tiles[c] = tiles[c];
@@ -354,12 +343,11 @@ class mahCanvas extends Canvas {
       table[15][3][0] = -1;
 
       randTile();
-
-
    }
-///////////////////////////////////////////////////////////
-// Function: randTile()
-///////////////////////////////////////////////////////////   
+
+   ///////////////////////////////////////////////////////////
+   // Function: randTile()
+   ///////////////////////////////////////////////////////////   
    public void randTile() {
 
       if (newFlag) {
@@ -442,10 +430,9 @@ class mahCanvas extends Canvas {
    }
 
 
-////////////////////////////////////////////////////////////
-// Function: paint
-////////////////////////////////////////////////////////////
-
+   ////////////////////////////////////////////////////////////
+   // Function: paint
+   ////////////////////////////////////////////////////////////
    public void paint(Graphics g) {
 
       // clears the background
@@ -564,12 +551,11 @@ class mahCanvas extends Canvas {
             polygen(x,y,X,Y,z,g);
          }
       }
-
    }
-/////////////////////////////////////////////////////////
-// Function: polygen
-/////////////////////////////////////////////////////////
 
+   /////////////////////////////////////////////////////////
+   // Function: polygen
+   /////////////////////////////////////////////////////////
    public void polygen(int x,int y,int X, int Y,int z, Graphics g) {
 
       if ((x == 0) || (table[x-1][y][z] < 0) || (x==2 && y==3 && z==0)) {
@@ -588,9 +574,10 @@ class mahCanvas extends Canvas {
          g.fillPolygon(poly);
       }
    }
-////////////////////////////////////////////////////////////
-// Method: dist()
-////////////////////////////////////////////////////////////
+
+   ////////////////////////////////////////////////////////////
+   // Method: dist()
+   ////////////////////////////////////////////////////////////
    public void dist(int [] d, int [] h) {
 
       for (int i=0;i<144;++i) {
@@ -612,13 +599,12 @@ class mahCanvas extends Canvas {
       oldHigh2 = -1;
       tilesLeft = 144;
       Date time = new Date();
-      start = time.getTime();    
+      start = time.getTime();
+   }
 
-   }   
-////////////////////////////////////////////////////////////
-// Function: newGame()
-///////////////////////////////////////////////////////////
-
+   ////////////////////////////////////////////////////////////
+   // Function: newGame()
+   ///////////////////////////////////////////////////////////
    public void newGame() {
       for (int i=0;i<144;++i)
          open[i] =0;
@@ -635,10 +621,10 @@ class mahCanvas extends Canvas {
       start = time.getTime();
       USflag = 0;
    }
-////////////////////////////////////////////////////////////
-// Method: hint()
-////////////////////////////////////////////////////////////
 
+   ////////////////////////////////////////////////////////////
+   // Method: hint()
+   ////////////////////////////////////////////////////////////
    public void hint() {
 
       flag = 0;
@@ -678,18 +664,16 @@ class mahCanvas extends Canvas {
                      i=145;
                      j=145;
                      //break outer;
-
                   }
                }
             }
          }
       }
-   }    
+   }
 
-////////////////////////////////////////////////////////////
-// Function: update
-////////////////////////////////////////////////////////////
-
+   ////////////////////////////////////////////////////////////
+   // Function: update
+   ////////////////////////////////////////////////////////////
    public void update(Graphics g) {
       if (offScrImg == null)
          offScrImg = createImage(1024,550);
@@ -699,10 +683,9 @@ class mahCanvas extends Canvas {
       og.dispose();
    }
 
-////////////////////////////////////////////////////////////
-// Function: checkOpen
-////////////////////////////////////////////////////////////
-
+   ////////////////////////////////////////////////////////////
+   // Function: checkOpen
+   ////////////////////////////////////////////////////////////
    public boolean checkOpen(int xcoor, int ycoor, int z) {
 
       if (xcoor > 15 || xcoor < 1 || ycoor < 0 || ycoor > 7 || z < 0 || z > 3)
@@ -724,10 +707,9 @@ class mahCanvas extends Canvas {
       return false;
    }
 
-////////////////////////////////////////////////////////////
-// Function: mouseDown
-////////////////////////////////////////////////////////////
-
+   ////////////////////////////////////////////////////////////
+   // Function: mouseDown
+   ////////////////////////////////////////////////////////////
    public boolean mouseDown(Event e, int x, int y) {
 
       int xcoor;
@@ -836,7 +818,6 @@ class mahCanvas extends Canvas {
                         //System.out.println(indexes[xcoor][ycoor][z]);
                         //System.out.println(indexes[flagX][flagY][flagZ]);
 
-
                         if (z == levels || flagZ == levels) {
                            open[indexes[8][3][3]] = 1;
                            open[indexes[7][4][3]] = 1;
@@ -883,10 +864,8 @@ class mahCanvas extends Canvas {
                         open[indexes[xcoor][ycoor][z]] = -1;
                         open[indexes[flagX][flagY][flagZ]] = -1;
 
-
                         //System.out.println(indexes[xcoor][ycoor][z]);
                         //System.out.println(indexes[flagX][flagY][flagZ]);
-
 
                         if (z == levels || flagZ == levels) {
                            open[indexes[8][3][3]] = 1;
